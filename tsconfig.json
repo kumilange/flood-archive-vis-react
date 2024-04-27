@@ -1,0 +1,26 @@
+{
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"jest.config.ts",
+		"jest.setup.ts",
+		"src/sum.js",
+		"src/sum.test.js"
+	],
+	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ES2022"],
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
+		"module": "ES2022",
+		"target": "ES2022",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"allowJs": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"noEmit": true
+	}
+}
