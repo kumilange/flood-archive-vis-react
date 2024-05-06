@@ -1,0 +1,8 @@
+.MuiSlider-root {
+ 	margin-left: 12px !important;
+  width: 50% !important;
+}
+.MuiSlider-valueLabel span {
+	background: none !important;
+	color: #000 !important;
+}

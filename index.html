@@ -11,7 +11,10 @@
 		<title>Flood Archive from 1985 to 2021</title>
 	</head>
 	<body>
-		<div id="root"></div>
-		<script type="module" src="/src/main.tsx"></script>
+		<div id="app"></div>
 	</body>
+	<script type="module">
+		import { renderToDOM } from './app.tsx';
+		renderToDOM(document.getElementById('app'));
+	</script>
 </html>
