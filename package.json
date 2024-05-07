@@ -15,7 +15,6 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@deck.gl/aggregation-layers": "^8.9.36",
 		"@deck.gl/core": "^8.9.36",
 		"@deck.gl/extensions": "^8.9.36",
 		"@deck.gl/layers": "^8.9.36",
@@ -26,8 +25,8 @@
 		"@loaders.gl/csv": "^3.4.13",
 		"@loaders.gl/json": "^3.4.15",
 		"@mui/icons-material": "^5.15.16",
-		"@mui/material": "^5.15.16",
 		"@types/eslint": "^8.56.5",
+		"antd": "^5.17.0",
 		"deck.gl": "^8.9.0",
 		"eslint-config-prettier": "^9.1.0",
 		"maplibre-gl": "^4.1.3",

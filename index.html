@@ -4,17 +4,22 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/png" sizes="16x16" href="/klange.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap"
-			rel="stylesheet"
-		/>
+		<style>
+			body {
+				margin: 0;
+				font-family: 'IBM Plex Sans', sans-serif !important;
+				width: 100vw;
+				height: 100vh;
+				overflow: hidden;
+			}
+		</style>
 		<title>Flood Archive from 1985 to 2021</title>
 	</head>
 	<body>
 		<div id="app"></div>
 	</body>
 	<script type="module">
-		import { renderToDOM } from './app.tsx';
+		import { renderToDOM } from './src/App.tsx';
 		renderToDOM(document.getElementById('app'));
 	</script>
 </html>

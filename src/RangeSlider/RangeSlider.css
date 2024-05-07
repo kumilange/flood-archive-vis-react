@@ -1,0 +1,28 @@
+.ant-slider-horizontal {
+	font-family: 'IBM Plex Sans', sans-serif !important;
+	height: 14px !important;
+	padding-block: 5px !important;
+}
+
+.ant-slider-rail {
+	height: 2px !important;
+	background-color: rgba(0, 0, 0, 0.26) !important;
+}
+
+.ant-slider-track {
+	height: 2px !important;
+	background-color: #1976d2 !important;
+}
+.ant-slider-handle:after {
+	box-shadow: 0 0 0 2px #1976d2 !important;
+}
+
+.ant-slider-mark {
+	top: 14px !important;
+}
+.ant-slider-mark-text {
+	color: #999 !important;
+}
+.ant-slider-with-marks {
+	margin-bottom: 11px !important;
+}
