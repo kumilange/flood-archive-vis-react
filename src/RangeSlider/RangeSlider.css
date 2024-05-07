@@ -6,23 +6,23 @@
 
 .ant-slider-rail {
 	height: 2px !important;
-	background-color: rgba(0, 0, 0, 0.26) !important;
+	background-color: rgba(107, 174, 214, 0.8) !important;
 }
 
 .ant-slider-track {
 	height: 2px !important;
-	background-color: #1976d2 !important;
+	background-color: #08519c !important;
 }
 
 .ant-slider-handle:after {
-	box-shadow: 0 0 0 2px #1976d2 !important;
+	box-shadow: 0 0 0 2px #08519c !important;
 }
 
 .ant-slider-mark {
 	top: 14px !important;
 }
 .ant-slider-mark-text {
-	color: #999 !important;
+	color: #08519c !important;
 }
 .ant-slider-with-marks {
 	margin-bottom: 11px !important;

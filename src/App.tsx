@@ -67,21 +67,42 @@ const INITIAL_VIEW_STATE: MapViewState = {
 	// bearing: -27
 };
 
-export const colorRange: Color[] = [
-	[1, 152, 189],
-	[73, 227, 206],
-	[216, 254, 181],
-	[254, 237, 177],
-	[254, 173, 84],
-	[209, 55, 78],
+const COLOR_RANGE: Color[] = [
+	[239, 243, 255],
+	[198, 219, 239],
+	[158, 202, 225],
+	[107, 174, 214],
+	[49, 130, 189],
+	[8, 81, 156],
 ];
+const generateFillColor = (f: Feature<Geometry, PropertiesType>) => {
+	const deathToll = f.properties.Dead;
+	let index = 0;
+
+	switch (true) {
+		case deathToll > 0 && deathToll <= 10:
+			index = 1;
+			break;
+		case deathToll > 10 && deathToll <= 50:
+			index = 2;
+			break;
+		case deathToll > 50 && deathToll <= 100:
+			index = 3;
+			break;
+		case deathToll > 100 && deathToll <= 1000:
+			index = 4;
+			break;
+		case deathToll > 1000:
+			index = 5;
+			break;
+	}
+	return COLOR_RANGE[index];
+};
 
 const MAP_STYLE =
 	'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json';
 // const MAP_STYLE =
 //   'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json';
-
-const MS_PER_DAY = 8.64e7;
 
 type PropertiesType = {
 	ID: number;
@@ -161,20 +182,15 @@ export default function App({
 			new GeoJsonLayer<GeoJsonProperties>({
 				id: 'floods',
 				data,
-				// stroked: true,
+				stroked: true,
 				filled: true,
-				// pointType: 'circle+text',
 				pickable: true,
-				// getFillColor: [160, 160, 180, 200],
-				getFillColor: (f: Feature<Geometry, PropertiesType>) => {
-					const r = Math.sqrt(f.properties.Dead);
-					return [255 - r * 15, r * 5, r * 10];
-				},
+				getFillColor: (f: Feature<Geometry, PropertiesType>) =>
+					generateFillColor(f),
 				getPosition: (f: Feature<Geometry, PropertiesType>) =>
 					f.geometry?.coordinates,
 				getPointRadius: (f: Feature<Geometry, PropertiesType>) =>
 					Math.sqrt(f.properties.Area) * 100,
-
 				getFilterValue: (f: Feature<Geometry, PropertiesType>) =>
 					f.properties.timestamp,
 				filterRange: [filterValue[0], filterValue[1]],
@@ -193,28 +209,17 @@ export default function App({
 				layers={layers}
 				effects={[lightingEffect]}
 				initialViewState={INITIAL_VIEW_STATE}
-				// initialViewState={{
-				//   longitude: -1.415727,
-				//   latitude: 52.232395,
-				//   zoom: 6.6,
-				//   // minZoom: 5,
-				//   // maxZoom: 15,
-				//   pitch: 40.5,
-				//   bearing: -27
-				// }}
 				controller={true}
 				getTooltip={getTooltip}
 			>
 				<Map reuseMaps mapStyle={mapStyle} />
 			</DeckGL>
-
 			{timeRange && (
 				<RangeSlider
 					min={timeRange[0]}
 					max={timeRange[1]}
 					// @ts-ignore
 					value={filterValue}
-					animationSpeed={MS_PER_DAY * 10}
 					formatLabel={formatLabel}
 					onChange={setFilter}
 				/>

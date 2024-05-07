@@ -4,18 +4,25 @@ import Button from '@mui/material/IconButton';
 import PlayIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import './RangeSlider.css';
+
+const MS_PER_DAY = 8.64e7;
+const ANIMATION_SPEED = MS_PER_DAY * 10;
+const ICON_COLOR = '#08519c';
+const ICON_PROPS = {
+	fontSize: 'large',
+	style: { color: ICON_COLOR },
+};
+
 export default function RangeSlider({
 	min,
 	max,
 	value,
-	animationSpeed,
 	onChange,
 	formatLabel,
 }: {
 	min: number;
 	max: number;
 	value: [start: number, end: number];
-	animationSpeed: number;
 	onChange: (value: [start: number, end: number]) => void;
 	formatLabel: (value: number) => string;
 }) {
@@ -30,7 +37,7 @@ export default function RangeSlider({
 
 	if (isPlaying && !animation.id) {
 		const span = value[1] - value[0];
-		let nextValueMin = value[0] + animationSpeed;
+		let nextValueMin = value[0] + ANIMATION_SPEED;
 		if (nextValueMin + span >= max) {
 			nextValueMin = min;
 		}
@@ -61,9 +68,9 @@ export default function RangeSlider({
 				title={isPlaying ? 'Stop' : 'Animate'}
 			>
 				{isPlaying ? (
-					<PauseIcon fontSize="large" />
+					<PauseIcon {...ICON_PROPS} />
 				) : (
-					<PlayIcon fontSize="large" />
+					<PlayIcon {...ICON_PROPS} />
 				)}
 			</Button>
 			<div style={{ width: '80%', marginLeft: '10px' }}>
