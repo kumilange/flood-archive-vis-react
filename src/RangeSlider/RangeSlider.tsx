@@ -1,4 +1,3 @@
-/* global requestAnimationFrame, cancelAnimationFrame */
 import React, { useEffect, useState } from 'react';
 import { Slider } from 'antd';
 import Button from '@mui/material/IconButton';

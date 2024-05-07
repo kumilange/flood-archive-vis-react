@@ -13,6 +13,7 @@
 	height: 2px !important;
 	background-color: #1976d2 !important;
 }
+
 .ant-slider-handle:after {
 	box-shadow: 0 0 0 2px #1976d2 !important;
 }

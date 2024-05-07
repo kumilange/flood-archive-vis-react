@@ -227,39 +227,6 @@ export async function renderToDOM(container: HTMLDivElement) {
 	const root = createRoot(container);
 	root.render(<App />);
 
-	// const data = (await load(DATA_URL, GeoJSONLoader)).features;
-
-	// const floods = data.map((feature: any) => ({
-	//   ...feature,
-	//   // geometry: {
-	//   //   ...feature.geometry,
-	//   //   coordinates: [feature.geometry.coordinates[0], feature.geometry.coordinates[1], 400]
-	//   // },
-	//   properties: {
-	//     ...feature.properties,
-	//     timestamp: new Date(`${ feature.properties.Began } UTC`).getTime(),
-	//     elevation: Math.sqrt(feature.properties.Dead) * 10
-	//   }
-	// }));
-
-	const features = (await load(DATA_URL, GeoJSONLoader)).features;
-	// const points: DataPoint[] = data.map(d => [d.long, d.lat]);
-	const floods = features.map((feature: any) => {
-		return {
-			...feature,
-			properties: {
-				...feature.properties,
-				timestamp: new Date(`${feature.properties.Began} UTC`).getTime(),
-			},
-		};
-	});
-
-	root.render(
-		<App
-			data={{
-				type: 'FeatureCollection',
-				features: floods,
-			}}
-		/>,
-	);
+	const featureCollection = await load(DATA_URL, GeoJSONLoader);
+	root.render(<App data={featureCollection} />);
 }
