@@ -3,15 +3,11 @@ import { Slider } from 'antd';
 import Button from '@mui/material/IconButton';
 import PlayIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import './RangeSlider.css';
+import './ant-slider.css';
 
 const MS_PER_DAY = 8.64e7;
 const ANIMATION_SPEED = MS_PER_DAY * 10;
-const ICON_COLOR = '#08519c';
-const ICON_PROPS = {
-	fontSize: 'large',
-	style: { color: ICON_COLOR },
-};
+const getIconColor = (isEnabled: boolean) => isEnabled ? '#08519c' : "rgba(0, 0, 0, 0.26)";
 
 export default function RangeSlider({
 	min,
@@ -30,6 +26,11 @@ export default function RangeSlider({
 	const [animation] = useState<{
 		id?: number;
 	}>({});
+	const isButtonEnabled = value[0] > min || value[1] < max;
+	const iconProps = {
+		fontSize: 'large',
+		style: { color: getIconColor(isButtonEnabled) },
+	};
 
 	useEffect(() => {
 		return () => animation.id && cancelAnimationFrame(animation.id);
@@ -47,7 +48,6 @@ export default function RangeSlider({
 		});
 	}
 
-	const isButtonEnabled = value[0] > min || value[1] < max;
 
 	return (
 		<div
@@ -68,9 +68,9 @@ export default function RangeSlider({
 				title={isPlaying ? 'Stop' : 'Animate'}
 			>
 				{isPlaying ? (
-					<PauseIcon {...ICON_PROPS} />
+					<PauseIcon {...iconProps} />
 				) : (
-					<PlayIcon {...ICON_PROPS} />
+					<PlayIcon {...iconProps} />
 				)}
 			</Button>
 			<div style={{ width: '80%', marginLeft: '10px' }}>

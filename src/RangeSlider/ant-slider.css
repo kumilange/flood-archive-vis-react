@@ -1,0 +1,30 @@
+.ant-slider.ant-slider-horizontal {
+	font-family: 'IBM Plex Sans', sans-serif;
+	/* font-family: 'Titillium Web', sans-serif; */
+	height: 14px;
+	padding-block: 5px;
+}
+
+.ant-slider .ant-slider-rail {
+	height: 2px;
+	background-color: rgba(107, 174, 214, 0.8);
+}
+
+.ant-slider .ant-slider-track {
+	height: 2px;
+	background-color: #08519c;
+}
+
+.ant-slider-handle:after {
+	box-shadow: 0 0 0 2px #08519c !important;
+}
+
+.ant-slider-mark {
+	top: 14px !important;
+}
+.ant-slider-mark-text {
+	color: #08519c !important;
+}
+.ant-slider-with-marks {
+	margin-bottom: 11px !important;
+}
