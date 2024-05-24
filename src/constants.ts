@@ -1,12 +1,10 @@
 import { DataFilterExtension } from '@deck.gl/extensions';
-import {
-	MapView,
-} from '@deck.gl/core';
+import { MapView } from '@deck.gl/core';
 import type { MapViewState } from '@deck.gl/core';
 
 // Source data GeoJSON
 export const DATA_URL =
-	'https://kumiko-haraguchi.github.io/data-store/flood/floodArchive.geojson';
+	'https://kumilange.github.io/data-store/flood/floodArchive.geojson';
 
 // This is only needed for this particular dataset - the default view assumes
 // that the furthest geometries are on the ground. Because we are drawing the

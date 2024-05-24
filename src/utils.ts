@@ -24,9 +24,6 @@ export function formatLabel(timestamp: number) {
 	});
 }
 
-
-
-
 export function generateFillColor(f: Feature<Geometry, PropertiesType>) {
 	const deathToll = f.properties.Dead;
 	let index = 0;
@@ -49,7 +46,7 @@ export function generateFillColor(f: Feature<Geometry, PropertiesType>) {
 			break;
 	}
 	return COLOR_RANGE[index];
-};
+}
 
 export function getTimeRange(
 	features?: Feature<Geometry, GeoJsonProperties>[],

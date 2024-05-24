@@ -11,13 +11,23 @@ import type {
 	FeatureCollection,
 	GeoJsonProperties,
 } from 'geojson';
-import { formatLabel, generateFillColor, getTimeRange, getTooltip } from './utils';
-import { DATA_URL, INITIAL_VIEW_STATE, MAP_STYLE, MAP_VIEW, DATA_FILTER } from './constants';
+import {
+	formatLabel,
+	generateFillColor,
+	getTimeRange,
+	getTooltip,
+} from './utils';
+import {
+	DATA_URL,
+	INITIAL_VIEW_STATE,
+	MAP_STYLE,
+	MAP_VIEW,
+	DATA_FILTER,
+} from './constants';
 import RangeSlider from './RangeSlider/RangeSlider';
 import './index.css';
-import "maplibre-gl/dist/maplibre-gl.css";
-import styles from "./App.module.scss";
-
+import 'maplibre-gl/dist/maplibre-gl.css';
+import styles from './App.module.scss';
 
 export type PropertiesType = {
 	ID: number;
@@ -48,32 +58,34 @@ export default function App({
 
 	const layers = [
 		filterValue &&
-		new GeoJsonLayer<GeoJsonProperties>({
-			id: 'floods',
-			data,
-			stroked: true,
-			filled: true,
-			pickable: true,
-			getFillColor: (f: Feature<Geometry, PropertiesType>) =>
-				generateFillColor(f),
-			getPosition: (f: Feature<Geometry, PropertiesType>) =>
-				f.geometry?.coordinates,
-			getPointRadius: (f: Feature<Geometry, PropertiesType>) =>
-				Math.sqrt(f.properties.Area) * 100,
-			getFilterValue: (f: Feature<Geometry, PropertiesType>) =>
-				f.properties.timestamp,
-			filterRange: [filterValue[0], filterValue[1]],
-			filterSoftRange: [
-				filterValue[0] * 0.9 + filterValue[1] * 0.1,
-				filterValue[0] * 0.1 + filterValue[1] * 0.9,
-			],
-			extensions: [DATA_FILTER],
-		}),
+			new GeoJsonLayer<GeoJsonProperties>({
+				id: 'floods',
+				data,
+				stroked: true,
+				filled: true,
+				pickable: true,
+				getFillColor: (f: Feature<Geometry, PropertiesType>) =>
+					generateFillColor(f),
+				getPosition: (f: Feature<Geometry, PropertiesType>) =>
+					f.geometry?.coordinates,
+				getPointRadius: (f: Feature<Geometry, PropertiesType>) =>
+					Math.sqrt(f.properties.Area) * 100,
+				getFilterValue: (f: Feature<Geometry, PropertiesType>) =>
+					f.properties.timestamp,
+				filterRange: [filterValue[0], filterValue[1]],
+				filterSoftRange: [
+					filterValue[0] * 0.9 + filterValue[1] * 0.1,
+					filterValue[0] * 0.1 + filterValue[1] * 0.9,
+				],
+				extensions: [DATA_FILTER],
+			}),
 	];
 
 	return (
 		<main>
-			<h1 className={styles.heading1}>Global Active Archive of Large Flood Events, 1985-2021</h1>
+			<h1 className={styles.heading1}>
+				Global Active Archive of Large Flood Events, 1985-2021
+			</h1>
 			<DeckGL
 				views={MAP_VIEW}
 				layers={layers}

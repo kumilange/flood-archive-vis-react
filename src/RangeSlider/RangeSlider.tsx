@@ -7,7 +7,8 @@ import './ant-slider.css';
 
 const MS_PER_DAY = 8.64e7;
 const ANIMATION_SPEED = MS_PER_DAY * 10;
-const getIconColor = (isEnabled: boolean) => isEnabled ? '#08519c' : "rgba(0, 0, 0, 0.26)";
+const getIconColor = (isEnabled: boolean) =>
+	isEnabled ? '#08519c' : 'rgba(0, 0, 0, 0.26)';
 
 export default function RangeSlider({
 	min,
@@ -48,7 +49,6 @@ export default function RangeSlider({
 		});
 	}
 
-
 	return (
 		<div
 			style={{
@@ -67,11 +67,7 @@ export default function RangeSlider({
 				onClick={() => setIsPlaying(!isPlaying)}
 				title={isPlaying ? 'Stop' : 'Animate'}
 			>
-				{isPlaying ? (
-					<PauseIcon {...iconProps} />
-				) : (
-					<PlayIcon {...iconProps} />
-				)}
+				{isPlaying ? <PauseIcon {...iconProps} /> : <PlayIcon {...iconProps} />}
 			</Button>
 			<div style={{ width: '80%', marginLeft: '10px' }}>
 				<Slider
