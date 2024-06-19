@@ -1,0 +1,56 @@
+.ant-slider {
+	&.ant-slider-horizontal {
+		font-family: var(--lib-font);
+		height: 14px;
+		padding-block: 5px;
+
+		&:hover {
+			.ant-slider-track {
+				background-color: var(--secondary-blue);
+			}
+		}
+	}
+
+	&.ant-slider-with-marks {
+		margin-bottom: 11px;
+	}
+
+	.ant-slider-rail {
+		height: 2px;
+		background-color: var(--secondary-blue);
+	}
+
+	.ant-slider-track {
+		height: 2px;
+		background-color: var(--primary);
+	}
+
+	.ant-slider-handle::after {
+		box-shadow: 0 0 0 2px var(--primary);
+	}
+
+	.ant-slider-handle:hover::after {
+		box-shadow: 0 0 0 2px var(--primary);
+	}
+
+	&:hover {
+		.ant-slider-handle::after {
+			box-shadow: 0 0 0 2px var(--primary);
+		}
+	}
+
+	.ant-slider-mark {
+		top: 14px;
+		font-size: 12px;
+
+		.ant-slider-mark-text {
+			color: var(--primary);
+		}
+	}
+
+	.ant-slider-mark-text {
+		+ .ant-slider-mark-text {
+			top: -32px;
+		}
+	}
+}

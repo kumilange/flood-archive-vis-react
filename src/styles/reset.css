@@ -60,8 +60,3 @@ h6 {
 #__next {
 	isolation: isolate;
 }
-
-/* Add custom settings */
-body {
-	font-family: Plex, sans-serif;
-}

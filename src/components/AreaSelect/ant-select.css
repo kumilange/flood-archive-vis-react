@@ -1,0 +1,9 @@
+.ant-select-selector .ant-select-selection-item,
+.ant-select-item.ant-select-item-option {
+	font-family: var(--lib-font);
+	color: var(--primary);
+}
+
+.ant-select-selector .ant-select-selection-item {
+	font-weight: 700;
+}
