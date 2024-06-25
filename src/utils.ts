@@ -74,7 +74,7 @@ export function getTooltip({ object }: PickingInfo) {
     Area: ${Area} sq km
     `,
 		style: {
-			zIndex: "2",
+			zIndex: '2',
 			backgroundColor: 'white',
 			color: '#08519c',
 			border: '2px solid #08519c',
