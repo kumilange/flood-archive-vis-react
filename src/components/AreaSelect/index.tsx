@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Select } from 'antd';
-import { FlyToInterpolator } from '@deck.gl/core';
+import { FlyToInterpolator } from '@deck.gl/core/typed';
 import { WebMercatorViewport } from 'viewport-mercator-project';
 import { useAtom, useSetAtom } from 'jotai';
 import { initialBoundsAtom, initialViewAtom } from '../../atoms';

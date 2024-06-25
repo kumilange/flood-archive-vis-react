@@ -11,12 +11,11 @@
 		"lint": "eslint --fix",
 		"typecheck": "tsc",
 		"prepare": "husky",
-		"validate": "concurrently \"npm run lint\" \"npm run format\"",
+		"validate": "concurrently \"npm run typecheck\" \"npm run lint\" \"npm run format\"",
 		"test": "jest"
 	},
 	"dependencies": {
 		"@ant-design/icons": "^5.3.7",
-		"@danmarshall/deckgl-typings": "^4.9.28",
 		"@deck.gl/core": "^8.9.36",
 		"@deck.gl/extensions": "^8.9.36",
 		"@deck.gl/layers": "^8.9.36",

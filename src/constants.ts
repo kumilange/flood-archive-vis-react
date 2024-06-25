@@ -1,5 +1,5 @@
-import { DataFilterExtension } from '@deck.gl/extensions';
-import { MapView } from '@deck.gl/core';
+import { DataFilterExtension } from '@deck.gl/extensions/typed';
+import { MapView } from '@deck.gl/core/typed';
 
 // App component
 export const MAP_STYLE =

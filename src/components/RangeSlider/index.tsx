@@ -26,7 +26,9 @@ export default function RangeSlider({
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [animation] = useState<{ id?: number }>({});
 	const isButtonEnabled = value[0] > min || value[1] < max;
-	const iconProps = { style: { color: getIconColor(isButtonEnabled), fontSize: '30px' } };
+	const iconProps = {
+		style: { color: getIconColor(isButtonEnabled), fontSize: '30px' },
+	};
 
 	useEffect(() => {
 		return () => {
