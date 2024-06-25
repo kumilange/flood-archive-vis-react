@@ -1,5 +1,5 @@
-import { DataFilterExtension } from '@deck.gl/extensions';
-import { MapView } from '@deck.gl/core';
+import { DataFilterExtension } from '@deck.gl/extensions/typed';
+import { MapView } from '@deck.gl/core/typed';
 
 // App component
 export const MAP_STYLE =
@@ -25,14 +25,14 @@ export const DATA_FILTER = new DataFilterExtension({
 });
 
 // AreaSelect
-type AreaOption = {
+type Area = {
 	[key: string]: {
 		label: string;
 		boundary: [[number, number], [number, number]];
 		zoom: number;
 	};
 };
-export const AREA_OPTIONS: AreaOption = {
+export const AREAS: Area = {
 	all: {
 		label: 'World',
 		boundary: [
@@ -130,4 +130,3 @@ export const AREA_OPTIONS: AreaOption = {
 		zoom: 4,
 	},
 };
-

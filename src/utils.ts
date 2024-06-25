@@ -1,5 +1,6 @@
+import { Color, PickingInfo } from '@deck.gl/core/typed';
+import { TooltipContent } from '@deck.gl/core/typed/lib/tooltip';
 import type { Feature, Geometry, GeoJsonProperties } from 'geojson';
-import type { RGBAColor } from '@deck.gl/core';
 
 export function formatLabel(timestamp: number) {
 	return new Date(timestamp).toLocaleDateString('en-US', {
@@ -17,8 +18,8 @@ const COLOR_RANGE = [
 	[49, 130, 189],
 	[8, 81, 156],
 ];
-export function generateFillColor(f: Feature<Geometry, PropertiesType>) {
-	const deathToll = f.properties.Dead;
+export function generateFillColor(f: Feature<Geometry, GeoJsonProperties>) {
+	const deathToll = f.properties?.Dead;
 	let index = 0;
 
 	switch (true) {
@@ -38,11 +39,11 @@ export function generateFillColor(f: Feature<Geometry, PropertiesType>) {
 			index = 5;
 			break;
 	}
-	return COLOR_RANGE[index] as RGBAColor;
+	return COLOR_RANGE[index] as Color;
 }
 
 export function getTimeRange(
-	features?: Feature<Geometry, PropertiesType>[],
+	features?: Feature<Geometry, GeoJsonProperties>[],
 ): [number, number] {
 	if (!features) {
 		return [0, 0];
@@ -59,10 +60,7 @@ export function getTimeRange(
 	);
 }
 
-export function getTooltip({
-	object,
-	// @ts-expect-error: PickingInfo type is missing
-}: PickingInfo<Feature<Geometry, PropertiesType>>) {
+export function getTooltip({ object }: PickingInfo) {
 	if (!object) return null;
 	const {
 		properties: { Dead, Area, Country, timestamp },
@@ -76,7 +74,7 @@ export function getTooltip({
     Area: ${Area} sq km
     `,
 		style: {
-			zIndex: 2,
+			zIndex: '2',
 			backgroundColor: 'white',
 			color: '#08519c',
 			border: '2px solid #08519c',

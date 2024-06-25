@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { Slider, Button } from 'antd';
 import CaretRightOutlined from '@ant-design/icons/CaretRightOutlined';
 import PauseOutlined from '@ant-design/icons/PauseOutlined';
@@ -20,15 +20,11 @@ export default function RangeSlider({
 	min: number;
 	max: number;
 	value: [start: number, end: number];
-	onChange: React.Dispatch<
-		React.SetStateAction<[start: number, end: number] | undefined>
-	>;
+	onChange: Dispatch<SetStateAction<[start: number, end: number] | undefined>>;
 	formatLabel: (value: number) => string;
 }) {
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [animation] = useState<{
-		id?: number;
-	}>({});
+	const [animation] = useState<{ id?: number }>({});
 	const isButtonEnabled = value[0] > min || value[1] < max;
 	const iconProps = {
 		style: { color: getIconColor(isButtonEnabled), fontSize: '30px' },

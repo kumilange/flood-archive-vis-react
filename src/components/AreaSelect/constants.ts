@@ -1,11 +1,11 @@
-import { AREA_OPTIONS } from "../../constants";
+import { AREAS } from '../../constants';
 
-const AMERICA_GROUP_OPTIONS = Object.keys(AREA_OPTIONS)
+const AMERICA_GROUP_OPTIONS = Object.keys(AREAS)
 	.filter((key) => key.includes('america'))
-	.map((area) => ({ value: area, label: AREA_OPTIONS[area].label }));
-const ASIA_GROUP_OPTIONS = Object.keys(AREA_OPTIONS)
+	.map((area) => ({ value: area, label: AREAS[area].label }));
+const ASIA_GROUP_OPTIONS = Object.keys(AREAS)
 	.filter((key) => key.includes('asia'))
-	.map((area) => ({ value: area, label: AREA_OPTIONS[area].label }));
+	.map((area) => ({ value: area, label: AREAS[area].label }));
 export const AREA_SELECT_OPTIONS = generateOptions();
 
 /**
@@ -19,12 +19,12 @@ function generateOptions() {
 		label: string;
 		title?: string;
 		options?:
-		| { value: string; label: string }[]
-		| { value: string; label: string }[];
+			| { value: string; label: string }[]
+			| { value: string; label: string }[];
 		value?: string;
 	}[] = [];
 
-	Object.keys(AREA_OPTIONS).forEach((key) => {
+	Object.keys(AREAS).forEach((key) => {
 		if (key.includes('america')) {
 			if (hasAmerica) return;
 
@@ -48,7 +48,7 @@ function generateOptions() {
 
 			return;
 		} else {
-			options.push({ value: key, label: AREA_OPTIONS[key].label });
+			options.push({ value: key, label: AREAS[key].label });
 		}
 	});
 
