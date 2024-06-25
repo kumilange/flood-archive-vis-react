@@ -4,7 +4,7 @@ import { FlyToInterpolator } from '@deck.gl/core';
 import { WebMercatorViewport } from 'viewport-mercator-project';
 import { useAtom, useSetAtom } from 'jotai';
 import { initialBoundsAtom, initialViewAtom } from '../../atoms';
-import { AREA_OPTIONS } from '../../constants';
+import { AREAS } from '../../constants';
 import { AREA_SELECT_OPTIONS } from './constants';
 import './ant-select.css';
 
@@ -26,18 +26,21 @@ export default function AreaSelect() {
 		[viewAtom],
 	);
 
-	const handleFlyToArea = useCallback((value: string) => {
-		const boundbox = AREA_OPTIONS[value].boundary;
-		const newViewState = fitBoundsToViewport(boundbox);
+	const handleFlyToArea = useCallback(
+		(value: string) => {
+			const boundbox = AREAS[value].boundary;
+			const newViewState = fitBoundsToViewport(boundbox);
 
-		setViewAtom({
-			...newViewState,
-			transitionInterpolator: new FlyToInterpolator({ speed: 10 }),
-			transitionDuration: 'auto',
-		});
+			setViewAtom({
+				...newViewState,
+				transitionInterpolator: new FlyToInterpolator({ speed: 10 }),
+				transitionDuration: 'auto',
+			});
 
-		setBoundsAtom(boundbox);
-	}, [setViewAtom, setBoundsAtom, fitBoundsToViewport]);
+			setBoundsAtom(boundbox);
+		},
+		[setViewAtom, setBoundsAtom, fitBoundsToViewport],
+	);
 
 	return (
 		<Select

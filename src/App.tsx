@@ -39,30 +39,30 @@ export default function App({
 	const layers = useMemo(
 		() => [
 			data &&
-			filterValue &&
-			new GeoJsonLayer<PropertiesType>({
-				id: 'floods',
-				data: data as DataSet<PropertiesType>,
-				filled: true,
-				pickable: true,
-				// @ts-expect-error: deck.gl's type is incorrect
-				getFillColor: (f: Feature<Geometry, PropertiesType>) =>
-					generateFillColor(f),
-				getPosition: (f: Feature<Geometry, PropertiesType>) =>
+				filterValue &&
+				new GeoJsonLayer<PropertiesType>({
+					id: 'floods',
+					data: data as DataSet<PropertiesType>,
+					filled: true,
+					pickable: true,
 					// @ts-expect-error: deck.gl's type is incorrect
-					f.geometry?.coordinates,
-				// @ts-expect-error: deck.gl's type is incorrect
-				getPointRadius: (f: Feature<Geometry, PropertiesType>) =>
-					Math.sqrt(f.properties.Area) * 100,
-				getFilterValue: (f: Feature<Geometry, PropertiesType>) =>
-					f.properties.timestamp,
-				filterRange: [filterValue[0], filterValue[1]],
-				filterSoftRange: [
-					filterValue[0] * 0.9 + filterValue[1] * 0.1,
-					filterValue[0] * 0.1 + filterValue[1] * 0.9,
-				],
-				extensions: [DATA_FILTER],
-			}),
+					getFillColor: (f: Feature<Geometry, PropertiesType>) =>
+						generateFillColor(f),
+					getPosition: (f: Feature<Geometry, PropertiesType>) =>
+						// @ts-expect-error: deck.gl's type is incorrect
+						f.geometry?.coordinates,
+					// @ts-expect-error: deck.gl's type is incorrect
+					getPointRadius: (f: Feature<Geometry, PropertiesType>) =>
+						Math.sqrt(f.properties.Area) * 100,
+					getFilterValue: (f: Feature<Geometry, PropertiesType>) =>
+						f.properties.timestamp,
+					filterRange: [filterValue[0], filterValue[1]],
+					filterSoftRange: [
+						filterValue[0] * 0.9 + filterValue[1] * 0.1,
+						filterValue[0] * 0.1 + filterValue[1] * 0.9,
+					],
+					extensions: [DATA_FILTER],
+				}),
 		],
 		[data, filterValue],
 	);
