@@ -1,4 +1,10 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import React, {
+	useEffect,
+	useState,
+	Dispatch,
+	SetStateAction,
+	useRef,
+} from 'react';
 import { Slider, Button } from 'antd';
 import CaretRightOutlined from '@ant-design/icons/CaretRightOutlined';
 import PauseOutlined from '@ant-design/icons/PauseOutlined';
@@ -23,34 +29,34 @@ export default function RangeSlider({
 	onChange: Dispatch<SetStateAction<[start: number, end: number] | undefined>>;
 	formatLabel: (value: number) => string;
 }) {
+	const animationIdRef = useRef<number>();
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [animation] = useState<{ id?: number }>({});
 	const isButtonEnabled = value[0] > min || value[1] < max;
 	const iconProps = {
 		style: { color: getIconColor(isButtonEnabled), fontSize: '30px' },
 	};
 
 	useEffect(() => {
-		return () => {
-			if (animation.id) {
-				cancelAnimationFrame(animation.id);
+		if (isPlaying) {
+			const span = value[1] - value[0];
+			let nextValueMin = value[0] + ANIMATION_SPEED;
+
+			if (nextValueMin + span >= max) {
+				nextValueMin = min;
 			}
-		};
-	}, [animation]);
 
-	if (isPlaying && !animation.id) {
-		const span = value[1] - value[0];
-		let nextValueMin = value[0] + ANIMATION_SPEED;
-
-		if (nextValueMin + span >= max) {
-			nextValueMin = min;
+			animationIdRef.current = requestAnimationFrame(() => {
+				animationIdRef.current = 0;
+				onChange([nextValueMin, nextValueMin + span]);
+			});
 		}
 
-		animation.id = requestAnimationFrame(() => {
-			animation.id = 0;
-			onChange([nextValueMin, nextValueMin + span]);
-		});
-	}
+		return () => {
+			if (animationIdRef.current) {
+				cancelAnimationFrame(animationIdRef.current);
+			}
+		};
+	}, [isPlaying, value, min, max, onChange]);
 
 	return (
 		<>

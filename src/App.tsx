@@ -51,7 +51,6 @@ export default function App({
 	const layers = useMemo(
 		() => [
 			data &&
-				filterValue &&
 				new GeoJsonLayer<PropertiesType>({
 					id: 'floods',
 					data: data,
