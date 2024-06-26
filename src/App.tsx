@@ -51,26 +51,25 @@ export default function App({
 	const layers = useMemo(
 		() => [
 			data &&
-				filterValue &&
-				new GeoJsonLayer<PropertiesType>({
-					id: 'floods',
-					data: data,
-					filled: true,
-					pickable: true,
-					getFillColor: (f: Feature<Geometry, GeoJsonProperties>) =>
-						generateFillColor(f),
-					getPointRadius: (f: Feature<Geometry, GeoJsonProperties>) =>
-						Math.sqrt(f.properties?.Area) * 100,
-					// @ts-expect-error: Deck.gl is missing a type for GeoJsonLayer's getFilterValue
-					getFilterValue: (f: Feature<Geometry, GeoJsonProperties>) =>
-						f.properties?.timestamp,
-					filterRange: [filterValue[0], filterValue[1]],
-					filterSoftRange: [
-						filterValue[0] * 0.9 + filterValue[1] * 0.1,
-						filterValue[0] * 0.1 + filterValue[1] * 0.9,
-					],
-					extensions: [DATA_FILTER],
-				}),
+			new GeoJsonLayer<PropertiesType>({
+				id: 'floods',
+				data: data,
+				filled: true,
+				pickable: true,
+				getFillColor: (f: Feature<Geometry, GeoJsonProperties>) =>
+					generateFillColor(f),
+				getPointRadius: (f: Feature<Geometry, GeoJsonProperties>) =>
+					Math.sqrt(f.properties?.Area) * 100,
+				// @ts-expect-error: Deck.gl is missing a type for GeoJsonLayer's getFilterValue
+				getFilterValue: (f: Feature<Geometry, GeoJsonProperties>) =>
+					f.properties?.timestamp,
+				filterRange: [filterValue[0], filterValue[1]],
+				filterSoftRange: [
+					filterValue[0] * 0.9 + filterValue[1] * 0.1,
+					filterValue[0] * 0.1 + filterValue[1] * 0.9,
+				],
+				extensions: [DATA_FILTER],
+			}),
 		],
 		[data, filterValue],
 	);

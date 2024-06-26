@@ -4,10 +4,16 @@
 	--transparent: rgb(255, 255, 255, 0.5);
 	--text-font: 'Titillium Web', sans-serif;
 	--lib-font: 'IBM Plex Sans', sans-serif;
+	--base-font-size: 10px;
+}
+
+html {
+	font-size: var(--base-font-size);
 }
 
 body {
 	margin: 0;
+	font-size: 1.6rem; /*** 16px ***/
 	font-family: var(--text-font);
 	width: 100vw;
 	height: 100vh;

@@ -1,4 +1,10 @@
-import React, { useEffect, useState, Dispatch, SetStateAction, useRef } from 'react';
+import React, {
+	useEffect,
+	useState,
+	Dispatch,
+	SetStateAction,
+	useRef,
+} from 'react';
 import { Slider, Button } from 'antd';
 import CaretRightOutlined from '@ant-design/icons/CaretRightOutlined';
 import PauseOutlined from '@ant-design/icons/PauseOutlined';
@@ -50,8 +56,7 @@ export default function RangeSlider({
 				cancelAnimationFrame(animationIdRef.current);
 			}
 		};
-	}, [isPlaying, value, min, max, onChange])
-
+	}, [isPlaying, value, min, max, onChange]);
 
 	return (
 		<>
