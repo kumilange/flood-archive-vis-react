@@ -16,19 +16,22 @@ historical flood events around the world.
 
 ## Technologies Used
 
-- **React** - UI framework
+- **React** - UI framework [React Documentation](https://reactjs.org/)
 - **TypeScript** - Type-safe JavaScript
+  [TypeScript Documentation](https://www.typescriptlang.org/)
 - **deck.gl** - WebGL-powered visualization framework
+  [deck.gl Documentation](https://deck.gl/)
 - **MapLibre GL** - Open-source map rendering
-- **Jotai** - State management
-- **Ant Design** - UI components
+  [MapLibre GL Documentation](https://maplibre.org/)
+- **Jotai** - State management [Jotai Documentation](https://jotai.org/)
+- **Ant Design** - UI components [Ant Design Documentation](https://ant.design/)
 
 ## Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/flood-archive-vis.git
+   git clone https://github.com/kumilange/flood-archive-vis.git
    cd flood-archive-vis
    ```
 
@@ -79,7 +82,6 @@ to the present.
 **Citation:** G.R. Brakenridge. Global Active Archive of Large Flood Events.
 Dartmouth Flood Observatory, University of Colorado, USA.
 [http://floodobservatory.colorado.edu/Archives/](http://floodobservatory.colorado.edu/Archives/)
-(Accessed 1 October 2016).
 
 ## Development
 

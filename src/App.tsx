@@ -30,7 +30,6 @@ import './styles/index.css';
 import './styles/maplibregl.css';
 import styles from './App.module.scss';
 
-
 interface AppProps {
 	data?: FeatureCollection<Geometry, GeoJsonProperties>;
 }
@@ -50,8 +49,12 @@ export const createFloodLayer = (
 		filled: true,
 		pickable: true,
 		getFillColor: (f: Feature<Geometry, GeoJsonProperties>) => {
-			// Safe type assertion since we know our data structure
-			return generateFillColor(f);
+			try {
+				return generateFillColor(f);
+			} catch (error) {
+				console.warn('Invalid feature format for color generation', f);
+				return [200, 200, 200]; // Fallback color
+			}
 		},
 		getPointRadius: (f: Feature<Geometry, GeoJsonProperties>) => {
 			const area = (f.properties?.Area as number) || 0;
@@ -136,7 +139,7 @@ export async function renderToDOM(container: HTMLDivElement) {
 	} catch (error) {
 		console.error('Error loading data:', error);
 		root.render(
-			<div className={styles.error}>
+			<div className={styles.error} role="alert" aria-live="assertive">
 				Error loading flood data. Please try again later.
 			</div>,
 		);
