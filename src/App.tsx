@@ -30,21 +30,6 @@ import './styles/index.css';
 import './styles/maplibregl.css';
 import styles from './App.module.scss';
 
-/**
- * Type definition for flood properties
- */
-interface FloodProperties {
-	ID: number;
-	Country: string;
-	Area: number;
-	Began: string;
-	Ended: string;
-	Date: number;
-	Dead: number;
-	Displaced: number;
-	MainCause: string;
-	timestamp: number;
-}
 
 interface AppProps {
 	data?: FeatureCollection<Geometry, GeoJsonProperties>;
@@ -53,7 +38,7 @@ interface AppProps {
 /**
  * Create a GeoJson layer for flood data visualization
  */
-const createFloodLayer = (
+export const createFloodLayer = (
 	data: FeatureCollection<Geometry, GeoJsonProperties> | undefined,
 	filterValue: [number, number],
 ) => {

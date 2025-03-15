@@ -81,7 +81,7 @@ interface FloodProperties {
 	Area: number;
 	Country: string;
 	timestamp: number;
-	[key: string]: any;
+	[key: string]: number | string; // Specify the type for the index signature
 }
 
 /**

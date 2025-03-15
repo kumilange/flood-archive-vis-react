@@ -48,7 +48,7 @@ historical flood events around the world.
 
 ## Project Structure
 
-```
+```text
 flood-archive-vis/
 ├── src/                 # Source code
 │   ├── assets/          # Image assets
@@ -78,7 +78,8 @@ to the present.
 
 **Citation:** G.R. Brakenridge. Global Active Archive of Large Flood Events.
 Dartmouth Flood Observatory, University of Colorado, USA.
-http://floodobservatory.colorado.edu/Archives/ (Accessed 1 October 2016).
+[http://floodobservatory.colorado.edu/Archives/](http://floodobservatory.colorado.edu/Archives/)
+(Accessed 1 October 2016).
 
 ## Development
 
@@ -88,12 +89,3 @@ http://floodobservatory.colorado.edu/Archives/ (Accessed 1 October 2016).
 - `npm run format` - Format code with Prettier
 - `npm run lint` - Lint code with ESLint
 - `npm run typecheck` - Type-check with TypeScript
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
-for details.
