@@ -1,8 +1,12 @@
-import { Color, PickingInfo } from '@deck.gl/core/typed';
-import { TooltipContent } from '@deck.gl/core/typed/lib/tooltip';
+import { Color, PickingInfo } from '@deck.gl/core';
 import type { Feature, Geometry, GeoJsonProperties } from 'geojson';
 
-export function formatLabel(timestamp: number) {
+/**
+ * Format a timestamp into a human-readable date string
+ * @param timestamp - The timestamp to format
+ * @returns A formatted date string in the format MM/DD/YYYY
+ */
+export function formatLabel(timestamp: number): string {
 	return new Date(timestamp).toLocaleDateString('en-US', {
 		timeZone: 'utc',
 		year: 'numeric',
@@ -10,7 +14,8 @@ export function formatLabel(timestamp: number) {
 	});
 }
 
-const COLOR_RANGE = [
+// Color constants for flood visualization based on death toll
+const COLOR_RANGE: Color[] = [
 	[239, 243, 255],
 	[198, 219, 239],
 	[158, 202, 225],
@@ -18,53 +23,79 @@ const COLOR_RANGE = [
 	[49, 130, 189],
 	[8, 81, 156],
 ];
-export function generateFillColor(f: Feature<Geometry, GeoJsonProperties>) {
-	const deathToll = f.properties?.Dead;
+
+/**
+ * Generates a fill color for a flood feature based on the death toll
+ * @param f - GeoJSON feature with flood data
+ * @returns A color from the color range
+ */
+export function generateFillColor(
+	f: Feature<Geometry, GeoJsonProperties>,
+): Color {
+	const deathToll: number = f.properties?.Dead || 0;
 	let index = 0;
 
-	switch (true) {
-		case deathToll > 0 && deathToll <= 10:
-			index = 1;
-			break;
-		case deathToll > 10 && deathToll <= 50:
-			index = 2;
-			break;
-		case deathToll > 50 && deathToll <= 100:
-			index = 3;
-			break;
-		case deathToll > 100 && deathToll <= 1000:
-			index = 4;
-			break;
-		case deathToll > 1000:
-			index = 5;
-			break;
+	if (deathToll > 0 && deathToll <= 10) {
+		index = 1;
+	} else if (deathToll > 10 && deathToll <= 50) {
+		index = 2;
+	} else if (deathToll > 50 && deathToll <= 100) {
+		index = 3;
+	} else if (deathToll > 100 && deathToll <= 1000) {
+		index = 4;
+	} else if (deathToll > 1000) {
+		index = 5;
 	}
-	return COLOR_RANGE[index] as Color;
+
+	return COLOR_RANGE[index];
 }
 
+/**
+ * Calculate the time range for a set of features
+ * @param features - Array of GeoJSON features
+ * @returns A tuple with the minimum and maximum timestamps
+ */
 export function getTimeRange(
 	features?: Feature<Geometry, GeoJsonProperties>[],
 ): [number, number] {
-	if (!features) {
+	if (!features || features.length === 0) {
 		return [0, 0];
 	}
 
 	return features.reduce(
 		(range, f) => {
 			const t = f?.properties?.timestamp;
-			range[0] = Math.min(range[0], t);
-			range[1] = Math.max(range[1], t);
+			if (typeof t === 'number') {
+				range[0] = Math.min(range[0], t);
+				range[1] = Math.max(range[1], t);
+			}
 			return range;
 		},
 		[Infinity, -Infinity],
 	);
 }
 
-export function getTooltip({ object }: PickingInfo) {
+// Interface for flood properties
+interface FloodProperties {
+	Dead: number;
+	Area: number;
+	Country: string;
+	timestamp: number;
+	[key: string]: any;
+}
+
+/**
+ * Generate tooltip content for a flood feature
+ * @param info - Picking info from deck.gl
+ * @returns Tooltip content or null if no object is hovered
+ */
+export function getTooltip({
+	object,
+}: PickingInfo): { text: string; style: object } | null {
 	if (!object) return null;
-	const {
-		properties: { Dead, Area, Country, timestamp },
-	} = object;
+
+	const properties = object.properties as FloodProperties;
+	const { Dead, Area, Country, timestamp } = properties;
 
 	return {
 		text: `\
@@ -83,6 +114,11 @@ export function getTooltip({ object }: PickingInfo) {
 	};
 }
 
-export function getCursor({ isHovering }: { isHovering: boolean }) {
+/**
+ * Get the cursor style based on hover state
+ * @param isHovering - Whether the cursor is hovering over a feature
+ * @returns The cursor style
+ */
+export function getCursor({ isHovering }: { isHovering: boolean }): string {
 	return isHovering ? 'pointer' : 'default';
 }
