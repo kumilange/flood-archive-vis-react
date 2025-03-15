@@ -22,4 +22,14 @@ export default defineConfig({
 		outDir: 'dist',
 		sourcemap: true,
 	},
+	// Configure Sass with settings to minimize warnings
+	css: {
+		devSourcemap: true,
+		preprocessorOptions: {
+			scss: {
+				outputStyle: 'expanded',
+				sourceMap: true,
+			},
+		},
+	},
 });

@@ -1,12 +1,5 @@
 {
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		"jest.config.ts",
-		"jest.setup.ts",
-		"src/sum.js",
-		"src/sum.test.js"
-	],
+	"include": ["**/*.ts", "**/*.tsx"],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ES2022"],
 		"isolatedModules": true,

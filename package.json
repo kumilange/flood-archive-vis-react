@@ -11,8 +11,7 @@
 		"lint": "eslint --fix",
 		"typecheck": "tsc",
 		"prepare": "husky",
-		"validate": "concurrently \"npm run typecheck\" \"npm run lint\" \"npm run format\"",
-		"test": "jest"
+		"validate": "concurrently \"npm run typecheck\" \"npm run lint\" \"npm run format\""
 	},
 	"dependencies": {
 		"@ant-design/icons": "^5.3.8",
@@ -35,10 +34,6 @@
 		"viewport-mercator-project": "^7.0.4"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "^6.4.2",
-		"@testing-library/react": "^14.2.1",
-		"@testing-library/user-event": "^14.5.2",
-		"@types/jest": "^29.5.12",
 		"@types/react": "^18.2.45",
 		"@types/react-dom": "^18.2.18",
 		"@typescript-eslint/eslint-plugin": "^7.1.1",
@@ -53,12 +48,7 @@
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"husky": "^9.0.11",
 		"identity-obj-proxy": "^3.0.0",
-		"jest": "^29.7.0",
-		"jest-environment-jsdom": "^29.7.0",
-		"jest-environment-jsdom-sixteen": "^2.0.0",
-		"jest-transformer-svg": "^2.0.2",
 		"lint-staged": "^15.2.2",
-		"ts-jest": "^29.1.2",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.3.3",
 		"vite": "^5.1.4",

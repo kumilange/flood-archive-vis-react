@@ -1,4 +1,4 @@
-# Flood Archive Visualization 🌀
+# 🌀 Flood Archive Visualization 🗺️
 
 This project visualizes the Global Active Archive of Large Flood Events data
 from 1985-2021, using interactive maps and time-based filtering to explore
@@ -86,7 +86,6 @@ http://floodobservatory.colorado.edu/Archives/ (Accessed 1 October 2016).
 - `npm run format` - Format code with Prettier
 - `npm run lint` - Lint code with ESLint
 - `npm run typecheck` - Type-check with TypeScript
-- `npm run test` - Run tests with Jest
 
 ## Contributing
 
