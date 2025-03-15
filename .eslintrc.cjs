@@ -49,20 +49,4 @@ module.exports = {
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-var-requires': 'off',
 	},
-	overrides: [
-		{
-			settings: {
-				jest: {
-					version: latest,
-				},
-			},
-		},
-		// {
-		//   "files": ["**/*.test.ts",
-		// 	"**/*.test.tsx",],
-		//   "env": {
-		//     "jest": true
-		//   }
-		// }
-	],
 };
