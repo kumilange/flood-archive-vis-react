@@ -1,5 +1,7 @@
 # 🌀 Flood Archive Visualization 🗺️
 
+[![Flood Archive Vis](https://github.com/kumilange/flood-archive-vis/assets/28984604/d8265cf0-8556-433f-a387-4ae649910687)](https://github.com/kumilange/flood-archive-vis/assets/28984604/d8265cf0-8556-433f-a387-4ae649910687)
+
 This project visualizes the Global Active Archive of Large Flood Events data
 from 1985-2021, using interactive maps and time-based filtering to explore
 historical flood events around the world.
