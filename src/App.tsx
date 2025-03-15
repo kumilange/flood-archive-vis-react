@@ -1,16 +1,24 @@
-import React, { useState, useMemo } from 'react';
-import { createRoot } from 'react-dom/client';
-import Map, { AttributionControl } from 'react-map-gl/maplibre';
-import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
-import { _GeoJSONLoader as GeoJSONLoader } from '@loaders.gl/json';
+import DeckGL from '@deck.gl/react';
 import { load } from '@loaders.gl/core';
-import type {
+import { _GeoJSONLoader as GeoJSONLoader } from '@loaders.gl/json';
+import {
 	Feature,
 	FeatureCollection,
 	Geometry,
 	GeoJsonProperties,
 } from 'geojson';
+import { useAtomValue } from 'jotai';
+import { useState, useMemo } from 'react';
+import { createRoot } from 'react-dom/client';
+import Map, { AttributionControl } from 'react-map-gl/maplibre';
+
+import styles from './App.module.scss';
+import { initialViewAtom } from './atoms';
+import AreaDropDown from './components/AreaSelect';
+import Legend from './components/Legend';
+import RangeSlider from './components/RangeSlider';
+import { DATA_URL, MAP_STYLE, MAP_VIEW, DATA_FILTER } from './constants';
 import {
 	formatLabel,
 	generateFillColor,
@@ -18,17 +26,11 @@ import {
 	getTimeRange,
 	getTooltip,
 } from './utils';
-import { DATA_URL, MAP_STYLE, MAP_VIEW, DATA_FILTER } from './constants';
-import RangeSlider from './components/RangeSlider';
-import Legend from './components/Legend';
-import AreaDropDown from './components/AreaSelect';
-import { useAtomValue } from 'jotai';
-import { initialViewAtom } from './atoms';
+
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './styles/reset.css';
 import './styles/index.css';
 import './styles/maplibregl.css';
-import styles from './App.module.scss';
 
 interface AppProps {
 	data?: FeatureCollection<Geometry, GeoJsonProperties>;
