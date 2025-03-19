@@ -13,11 +13,11 @@ type ViewStateType = {
 	maxZoom?: number;
 	minPitch?: number;
 	maxPitch?: number;
-	transitionInterpolator?: FlyToInterpolator;
 	transitionDuration?: number | 'auto';
+	transitionInterpolator?: FlyToInterpolator;
 };
 
 export type BoundsType = [[number, number], [number, number]];
 
-export const initialViewAtom = atom<ViewStateType>(INITIAL_VIEW_STATE);
+export const initialViewStateAtom = atom<ViewStateType>(INITIAL_VIEW_STATE);
 export const initialBoundsAtom = atom<BoundsType>(AREAS.all.boundary);
