@@ -1,18 +1,12 @@
 import { Color, PickingInfo } from '@deck.gl/core';
-import type { Feature, Geometry, GeoJsonProperties } from 'geojson';
-
-/**
- * Format a timestamp into a human-readable date string
- * @param timestamp - The timestamp to format
- * @returns A formatted date string in the format MM/DD/YYYY
- */
-export function formatLabel(timestamp: number): string {
-	return new Date(timestamp).toLocaleDateString('en-US', {
-		timeZone: 'utc',
-		year: 'numeric',
-		month: '2-digit',
-	});
-}
+import { GeoJsonLayer } from '@deck.gl/layers';
+import type {
+	Feature,
+	Geometry,
+	GeoJsonProperties,
+	FeatureCollection,
+} from 'geojson';
+import { DATA_FILTER } from './constants';
 
 // Color constants for flood visualization based on death toll
 const COLOR_RANGE: Color[] = [
@@ -25,29 +19,16 @@ const COLOR_RANGE: Color[] = [
 ];
 
 /**
- * Generates a fill color for a flood feature based on the death toll
- * @param f - GeoJSON feature with flood data
- * @returns A color from the color range
+ * Format a timestamp into a human-readable date string
+ * @param timestamp - The timestamp to format
+ * @returns A formatted date string in the format MM/DD/YYYY
  */
-export function generateFillColor(
-	f: Feature<Geometry, GeoJsonProperties>,
-): Color {
-	const deathToll: number = f.properties?.Dead || 0;
-	let index = 0;
-
-	if (deathToll > 0 && deathToll <= 10) {
-		index = 1;
-	} else if (deathToll > 10 && deathToll <= 50) {
-		index = 2;
-	} else if (deathToll > 50 && deathToll <= 100) {
-		index = 3;
-	} else if (deathToll > 100 && deathToll <= 1000) {
-		index = 4;
-	} else if (deathToll > 1000) {
-		index = 5;
-	}
-
-	return COLOR_RANGE[index];
+export function formatLabel(timestamp: number): string {
+	return new Date(timestamp).toLocaleDateString('en-US', {
+		timeZone: 'utc',
+		year: 'numeric',
+		month: '2-digit',
+	});
 }
 
 /**
@@ -73,6 +54,32 @@ export function getTimeRange(
 		},
 		[Infinity, -Infinity],
 	);
+}
+
+/**
+ * Generates a fill color for a flood feature based on the death toll
+ * @param f - GeoJSON feature with flood data
+ * @returns A color from the color range
+ */
+export function generateFillColor(
+	f: Feature<Geometry, GeoJsonProperties>,
+): Color {
+	const deathToll: number = f.properties?.Dead || 0;
+	let index = 0;
+
+	if (deathToll > 0 && deathToll <= 10) {
+		index = 1;
+	} else if (deathToll > 10 && deathToll <= 50) {
+		index = 2;
+	} else if (deathToll > 50 && deathToll <= 100) {
+		index = 3;
+	} else if (deathToll > 100 && deathToll <= 1000) {
+		index = 4;
+	} else if (deathToll > 1000) {
+		index = 5;
+	}
+
+	return COLOR_RANGE[index];
 }
 
 // Interface for flood properties
@@ -122,3 +129,42 @@ export function getTooltip({
 export function getCursor({ isHovering }: { isHovering: boolean }): string {
 	return isHovering ? 'pointer' : 'default';
 }
+
+/**
+ * Create a GeoJson layer for flood data visualization
+ */
+export const createFloodLayer = (
+	data: FeatureCollection<Geometry, GeoJsonProperties> | undefined,
+	filterValue: [number, number],
+) => {
+	if (!data) return null;
+
+	return new GeoJsonLayer({
+		id: 'floods',
+		data: data,
+		filled: true,
+		pickable: true,
+		highlightColor: [255, 255, 100, 150],
+		getFillColor: (f: Feature<Geometry, GeoJsonProperties>) => {
+			try {
+				return generateFillColor(f);
+			} catch (error) {
+				console.warn('Invalid feature format for color generation', f);
+				return [200, 200, 200]; // Fallback color
+			}
+		},
+		getPointRadius: (f: Feature<Geometry, GeoJsonProperties>) => {
+			const area = (f.properties?.Area as number) || 0;
+			return Math.sqrt(area) * 100;
+		},
+		getFilterValue: (f: Feature<Geometry, GeoJsonProperties>) => {
+			return f.properties?.['timestamp'] as number;
+		},
+		filterRange: [filterValue[0], filterValue[1]],
+		filterSoftRange: [
+			filterValue[0] * 0.9 + filterValue[1] * 0.1,
+			filterValue[0] * 0.1 + filterValue[1] * 0.9,
+		],
+		extensions: [DATA_FILTER],
+	});
+};

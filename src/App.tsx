@@ -1,27 +1,21 @@
-import { GeoJsonLayer } from '@deck.gl/layers';
 import DeckGL from '@deck.gl/react';
 import { load } from '@loaders.gl/core';
 import { _GeoJSONLoader as GeoJSONLoader } from '@loaders.gl/json';
-import {
-	Feature,
-	FeatureCollection,
-	Geometry,
-	GeoJsonProperties,
-} from 'geojson';
+import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import { useAtomValue } from 'jotai';
 import { useState, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import Map, { AttributionControl } from 'react-map-gl/maplibre';
 
 import styles from './App.module.scss';
-import { initialViewAtom } from './atoms';
-import AreaDropDown from './components/AreaSelect';
+import { initialViewStateAtom } from './atoms';
+import AreaSelect from './components/AreaSelect';
 import Legend from './components/Legend';
 import RangeSlider from './components/RangeSlider';
-import { DATA_URL, MAP_STYLE, MAP_VIEW, DATA_FILTER } from './constants';
+import { DATA_URL, MAP_STYLE, MAP_VIEW } from './constants';
 import {
+	createFloodLayer,
 	formatLabel,
-	generateFillColor,
 	getCursor,
 	getTimeRange,
 	getTooltip,
@@ -32,55 +26,17 @@ import './styles/reset.css';
 import './styles/index.css';
 import './styles/maplibregl.css';
 
-interface AppProps {
-	data?: FeatureCollection<Geometry, GeoJsonProperties>;
-}
-
-/**
- * Create a GeoJson layer for flood data visualization
- */
-export const createFloodLayer = (
-	data: FeatureCollection<Geometry, GeoJsonProperties> | undefined,
-	filterValue: [number, number],
-) => {
-	if (!data) return null;
-
-	return new GeoJsonLayer({
-		id: 'floods',
-		data: data,
-		filled: true,
-		pickable: true,
-		getFillColor: (f: Feature<Geometry, GeoJsonProperties>) => {
-			try {
-				return generateFillColor(f);
-			} catch (error) {
-				console.warn('Invalid feature format for color generation', f);
-				return [200, 200, 200]; // Fallback color
-			}
-		},
-		getPointRadius: (f: Feature<Geometry, GeoJsonProperties>) => {
-			const area = (f.properties?.Area as number) || 0;
-			return Math.sqrt(area) * 100;
-		},
-		getFilterValue: (f: Feature<Geometry, GeoJsonProperties>) => {
-			return f.properties?.timestamp as number;
-		},
-		filterRange: [filterValue[0], filterValue[1]],
-		filterSoftRange: [
-			filterValue[0] * 0.9 + filterValue[1] * 0.1,
-			filterValue[0] * 0.1 + filterValue[1] * 0.9,
-		],
-		extensions: [DATA_FILTER],
-	});
+type AppProps = {
+	data: FeatureCollection<Geometry, GeoJsonProperties>;
 };
 
 /**
  * Main application component for flood visualization
  */
 export default function App({ data }: AppProps) {
-	const viewAtom = useAtomValue(initialViewAtom);
+	const viewState = useAtomValue(initialViewStateAtom);
 	const [filter, setFilter] = useState<[start: number, end: number]>();
-	const timeRange = useMemo(() => getTimeRange(data?.features), [data]);
+	const timeRange = useMemo(() => getTimeRange(data.features), [data]);
 	const filterValue = filter || timeRange;
 
 	const layers = useMemo(
@@ -94,12 +50,12 @@ export default function App({ data }: AppProps) {
 				<h1 className={styles.heading}>
 					Global Active Archive of Large Flood Events, 1985-2021
 				</h1>
-				<AreaDropDown />
+				<AreaSelect />
 			</div>
 			<DeckGL
 				views={MAP_VIEW}
 				layers={layers}
-				initialViewState={viewAtom}
+				initialViewState={viewState}
 				controller={true}
 				getTooltip={getTooltip}
 				getCursor={getCursor}
@@ -111,17 +67,15 @@ export default function App({ data }: AppProps) {
 
 			<Legend />
 
-			{timeRange && timeRange[0] !== timeRange[1] && (
-				<div className={styles.slider}>
-					<RangeSlider
-						min={timeRange[0]}
-						max={timeRange[1]}
-						value={filterValue}
-						formatLabel={formatLabel}
-						onChange={setFilter}
-					/>
-				</div>
-			)}
+			<div className={styles.slider}>
+				<RangeSlider
+					min={timeRange[0]}
+					max={timeRange[1]}
+					value={filterValue}
+					formatLabel={formatLabel}
+					onChange={setFilter}
+				/>
+			</div>
 		</main>
 	);
 }

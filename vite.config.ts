@@ -8,6 +8,7 @@ export default defineConfig({
 		react(),
 		webfontDownload([
 			'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap',
+			'https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap',
 		]),
 	],
 	// Add optimizeDeps configuration to handle ESM/CJS compatibility issues
@@ -43,10 +44,7 @@ export default defineConfig({
 	css: {
 		devSourcemap: true,
 		preprocessorOptions: {
-			scss: {
-				outputStyle: 'expanded',
-				sourceMap: true,
-			},
+			scss: {},
 		},
 	},
 });

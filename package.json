@@ -1,6 +1,6 @@
 {
-	"name": "flood-archive-vis",
-	"private": true,
+	"name": "flood-archive-vis-react",
+	"private": false,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {

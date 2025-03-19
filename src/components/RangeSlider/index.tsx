@@ -5,6 +5,7 @@ import React, {
 	SetStateAction,
 	useRef,
 	useCallback,
+	memo,
 } from 'react';
 import { Slider, Button } from 'antd';
 import CaretRightOutlined from '@ant-design/icons/CaretRightOutlined';
@@ -36,7 +37,7 @@ const getIconColor = (isEnabled: boolean): string =>
  * RangeSlider component that allows users to select a time range
  * and animate through time
  */
-export default function RangeSlider({
+function RangeSlider({
 	min,
 	max,
 	value,
@@ -129,3 +130,5 @@ export default function RangeSlider({
 		</>
 	);
 }
+
+export default memo(RangeSlider);
