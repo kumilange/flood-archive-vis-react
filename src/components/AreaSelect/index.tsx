@@ -3,7 +3,11 @@ import { Select } from 'antd';
 import { FlyToInterpolator } from '@deck.gl/core';
 import { WebMercatorViewport } from 'viewport-mercator-project';
 import { useAtom, useSetAtom } from 'jotai';
-import { BoundsType, initialBoundsAtom, initialViewAtom } from '../../atoms';
+import {
+	BoundsType,
+	initialBoundsAtom,
+	initialViewStateAtom,
+} from '../../atoms';
 import { AREAS } from '../../constants';
 import { AREA_SELECT_OPTIONS } from './constants';
 import './ant-select.css';
@@ -12,7 +16,7 @@ import './ant-select.css';
  * AreaSelect component allows users to select and fly to predefined geographic areas
  */
 export default function AreaSelect() {
-	const [viewAtom, setViewAtom] = useAtom(initialViewAtom);
+	const [viewState, setViewState] = useAtom(initialViewStateAtom);
 	const setBoundsAtom = useSetAtom(initialBoundsAtom);
 
 	/**
@@ -24,12 +28,12 @@ export default function AreaSelect() {
 			const viewport = new WebMercatorViewport({
 				width: innerWidth,
 				height: innerHeight,
-				...viewAtom,
+				...viewState,
 			});
 
 			return viewport.fitBounds(bounds, { padding: 20 });
 		},
-		[viewAtom],
+		[viewState],
 	);
 
 	/**
@@ -37,24 +41,18 @@ export default function AreaSelect() {
 	 */
 	const handleFlyToArea = useCallback(
 		(value: string) => {
-			// Ensure the selected area exists in our config
-			if (!AREAS[value]) {
-				console.error(`Unknown area: ${value}`);
-				return;
-			}
+			const { boundary } = AREAS[value];
+			const newViewState = fitBoundsToViewport(boundary);
 
-			const boundbox = AREAS[value].boundary;
-			const newViewState = fitBoundsToViewport(boundbox);
-
-			setViewAtom({
+			setViewState({
 				...newViewState,
 				transitionInterpolator: new FlyToInterpolator({ speed: 10 }),
 				transitionDuration: 'auto',
 			});
 
-			setBoundsAtom(boundbox);
+			setBoundsAtom(boundary);
 		},
-		[setViewAtom, setBoundsAtom, fitBoundsToViewport],
+		[setViewState, setBoundsAtom, fitBoundsToViewport],
 	);
 
 	return (
