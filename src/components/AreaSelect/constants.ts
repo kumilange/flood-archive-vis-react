@@ -3,9 +3,11 @@ import { AREAS } from '../../constants';
 const AMERICA_GROUP_OPTIONS = Object.keys(AREAS)
 	.filter((key) => key.includes('america'))
 	.map((area) => ({ value: area, label: AREAS[area].label }));
+
 const ASIA_GROUP_OPTIONS = Object.keys(AREAS)
 	.filter((key) => key.includes('asia'))
 	.map((area) => ({ value: area, label: AREAS[area].label }));
+
 export const AREA_SELECT_OPTIONS = generateOptions();
 
 /**
