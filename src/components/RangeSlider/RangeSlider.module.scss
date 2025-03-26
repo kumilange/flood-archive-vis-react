@@ -1,3 +1,20 @@
+.slider {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
+	bottom: 44px;
+	width: 80%;
+	max-width: 1000px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 30px 6px 8px;
+	border: 1px solid var(--transparent);
+	background-color: var(--transparent);
+	border-radius: 4px;
+}
+
 .wrapper {
 	width: 100%;
 	margin-left: 16px;

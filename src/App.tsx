@@ -11,7 +11,7 @@ import styles from './App.module.scss';
 import { initialViewStateAtom } from './atoms';
 import AreaSelect from './components/AreaSelect';
 import Legend from './components/Legend';
-import RangeSlider from './components/RangeSlider';
+import RangeSlider, { type RangeValues } from './components/RangeSlider';
 import { DATA_URL, MAP_STYLE, MAP_VIEW } from './constants';
 import {
 	createFloodLayer,
@@ -21,9 +21,9 @@ import {
 	getTooltip,
 } from './utils';
 
-import 'maplibre-gl/dist/maplibre-gl.css';
 import './styles/reset.css';
 import './styles/index.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './styles/maplibregl.css';
 
 type AppProps = {
@@ -35,13 +35,12 @@ type AppProps = {
  */
 export default function App({ data }: AppProps) {
 	const viewState = useAtomValue(initialViewStateAtom);
-	const [filter, setFilter] = useState<[start: number, end: number]>();
-	const timeRange = useMemo(() => getTimeRange(data.features), [data]);
-	const filterValue = filter || timeRange;
+	const timeRange = getTimeRange(data.features);
+	const [rangeValues, setRangeValues] = useState<RangeValues>(timeRange);
 
 	const layers = useMemo(
-		() => [createFloodLayer(data, filterValue)],
-		[data, filterValue],
+		() => [createFloodLayer(data, rangeValues)],
+		[data, rangeValues],
 	);
 
 	return (
@@ -52,6 +51,7 @@ export default function App({ data }: AppProps) {
 				</h1>
 				<AreaSelect />
 			</div>
+
 			<DeckGL
 				views={MAP_VIEW}
 				layers={layers}
@@ -67,15 +67,13 @@ export default function App({ data }: AppProps) {
 
 			<Legend />
 
-			<div className={styles.slider}>
-				<RangeSlider
-					min={timeRange[0]}
-					max={timeRange[1]}
-					value={filterValue}
-					formatLabel={formatLabel}
-					onChange={setFilter}
-				/>
-			</div>
+			<RangeSlider
+				min={timeRange[0]}
+				max={timeRange[1]}
+				values={rangeValues}
+				formatLabel={formatLabel}
+				onChange={setRangeValues}
+			/>
 		</main>
 	);
 }

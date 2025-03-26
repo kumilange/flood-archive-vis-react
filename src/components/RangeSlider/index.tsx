@@ -18,13 +18,13 @@ const MS_PER_DAY = 8.64e7;
 const ANIMATION_SPEED = MS_PER_DAY * 10;
 
 // Types
-type RangeValue = [start: number, end: number];
+export type RangeValues = [start: number, end: number];
 type RangeSliderProps = {
 	min: number;
 	max: number;
-	value: RangeValue;
-	onChange: Dispatch<SetStateAction<RangeValue | undefined>>;
-	formatLabel: (value: number) => string;
+	values: RangeValues;
+	onChange: Dispatch<SetStateAction<RangeValues>>;
+	formatLabel: (values: number) => string;
 };
 
 /**
@@ -40,31 +40,26 @@ const getIconColor = (isEnabled: boolean): string =>
 function RangeSlider({
 	min,
 	max,
-	value,
+	values,
 	onChange,
 	formatLabel,
 }: RangeSliderProps) {
 	const animationIdRef = useRef<number>();
 	const [isPlaying, setIsPlaying] = useState(false);
-	const isButtonEnabled = value[0] > min || value[1] < max;
+	const isButtonEnabled =
+		values[0] < values[1] && (values[0] > min || values[1] < max);
 
 	const iconProps = {
 		style: { color: getIconColor(isButtonEnabled), fontSize: '30px' },
 	};
 
 	/**
-	 * Handle animation frame updates
+	 * Handle slider values change
 	 */
-	const updateAnimation = useCallback(() => {
-		const span = value[1] - value[0];
-		let nextValueMin = value[0] + ANIMATION_SPEED;
-
-		if (nextValueMin + span >= max) {
-			nextValueMin = min;
-		}
-
-		onChange([nextValueMin, nextValueMin + span]);
-	}, [value, min, max, onChange]);
+	const handleSliderChange = useCallback(
+		(newValues: number[]) => onChange(newValues as RangeValues),
+		[],
+	);
 
 	/**
 	 * Toggle animation play/pause
@@ -74,31 +69,40 @@ function RangeSlider({
 	}, []);
 
 	/**
-	 * Handle slider value change
+	 * Handle animation frame updates
 	 */
-	const handleSliderChange = useCallback(
-		(newValue: number[]) => onChange(newValue as RangeValue),
-		[onChange],
-	);
+	const updateAnimation = useCallback(() => {
+		const span = values[1] - values[0];
+		let nextValueMin = values[0] + ANIMATION_SPEED;
 
-	// Animation effect
+		if (nextValueMin + span >= max) {
+			nextValueMin = min;
+		}
+
+		onChange([nextValueMin, nextValueMin + span]);
+
+		// Schedule the next animation frame
+		if (isPlaying) {
+			animationIdRef.current = requestAnimationFrame(updateAnimation);
+		}
+	}, [values, min, max, isPlaying, onChange]);
+
+	// Animation effect triggered when isPlaying changes
 	useEffect(() => {
 		if (isPlaying) {
-			animationIdRef.current = requestAnimationFrame(() => {
-				animationIdRef.current = 0;
-				updateAnimation();
-			});
+			animationIdRef.current = requestAnimationFrame(updateAnimation);
 		}
 
 		return () => {
 			if (animationIdRef.current) {
 				cancelAnimationFrame(animationIdRef.current);
+				animationIdRef.current = undefined;
 			}
 		};
 	}, [isPlaying, updateAnimation]);
 
 	return (
-		<>
+		<div className={styles.slider}>
 			<Button
 				color="primary"
 				shape="circle"
@@ -117,17 +121,17 @@ function RangeSlider({
 				<Slider
 					min={min}
 					max={max}
-					value={value}
+					value={values}
 					range={{ draggableTrack: true }}
 					tooltip={{ open: false }}
 					onChange={handleSliderChange}
 					marks={{
-						[value[0]]: formatLabel(value[0]),
-						[value[1]]: formatLabel(value[1]),
+						[values[0]]: formatLabel(values[0]),
+						[values[1]]: formatLabel(values[1]),
 					}}
 				/>
 			</div>
-		</>
+		</div>
 	);
 }
 
